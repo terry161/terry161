@@ -1,0 +1,21 @@
+-- Task 1:
+select distinct city
+from station
+where id % 2 = 0
+
+-- Task 2:
+select count(city)-count(distinct city)
+from station
+
+-- Task 1:
+
+-- Task 1:
+
+-- Task 1:
+
+-- Task 1:
+
+-- Task 1:
+
+-- Task 1:
+
