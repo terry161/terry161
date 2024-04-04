@@ -7,11 +7,24 @@ where id % 2 = 0
 select count(city)-count(distinct city)
 from station
 
--- Task 1:
+-- Task 3:
+select ceiling(avg(salary) - avg(replace(salary,0,"")))
+from employees
 
--- Task 1:
+-- Task 4:
+SELECT 
+  ROUND(
+    SUM(item_count::DECIMAL*order_occurrences)
+    /SUM(order_occurrences)
+    ,1) AS mean
+from items_per_order
 
--- Task 1:
+-- Task 5:
+SELECT candidate_id
+FROM candidates
+where skill in ('Python', 'Tableau','PostgreSQL')
+GROUP BY candidate_id
+having COUNT(candidate_id) = 3
 
 -- Task 1:
 
