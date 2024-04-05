@@ -26,9 +26,50 @@ where skill in ('Python', 'Tableau','PostgreSQL')
 GROUP BY candidate_id
 having COUNT(candidate_id) = 3
 
--- Task 1:
+-- Task 6:
+select 
+  user_id,
+  Max(post_date::DATE) - min(post_date::DATE) as days_between
+from posts
+where date_part('year', post_date::DATE) = 2021
+GROUP BY user_id
+having count(post_id) >1 
 
--- Task 1:
+-- Task 7:
+SELECT
+  card_name,
+  MAX(issued_amount) - MIN(issued_amount) as difference 
+FROM monthly_cards_issued
+GROUP BY card_name
+ORDER BY difference DESC;
 
--- Task 1:
+-- Task 8: 
+ manufacturer,
+  COUNT(drug) AS drug_count, 
+  SUM(cogs - total_sales) AS total_loss
+FROM pharmacy_sales
+WHERE cogs > total_sales
+GROUP BY manufacturer
+ORDER BY total_loss DESC;
 
+-- Task 9:
+select *
+from cinema
+where id % 2 = 1 and description <> "boring"
+order by rating desc
+
+-- task 10:
+select teacher_id, count(distinct subject_id) as cnt
+from teacher
+group by teacher_id
+
+-- task 11:
+select user_id, count(follower_id) as followers_count
+from followers
+group by user_id
+
+-- task 12:
+select class
+from courses
+group by class
+having count(student) >=5
