@@ -12,7 +12,12 @@ GROUP BY manufacturer
 ORDER BY sum(total_sales) DESC, manufacturer 
 
 -- Task 3:
-
+SELECT 
+  manufacturer, 
+  CONCAT('$', ROUND(SUM(total_sales) / 1000000), ' million') AS sales_mil 
+FROM pharmacy_sales 
+GROUP BY manufacturer 
+ORDER BY SUM(total_sales) DESC, manufacturer;
 
 -- Task 4:
 SELECT 
@@ -40,7 +45,11 @@ from Tweets
 where length(content) > 15
 
 -- Task 7:
-
+select activity_date as day, 
+    count(distinct(user_id)) as active_users 
+from Activity
+where activity_date between "2019-06-28" and "2019-07-27"
+group by activity_date;
 
 -- Task 8:
 select count(id)
