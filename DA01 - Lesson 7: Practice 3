@@ -34,7 +34,9 @@ order by count(message_id) desc
 limit 2
 
 -- Task 6:
-
+select tweet_id
+from Tweets
+where length(content) > 15
 
 -- Task 7:
 
@@ -43,7 +45,9 @@ limit 2
 
 
 -- Task 9:
-
+select position('a' in first_name)
+from worker
+where first_name = 'Amitah'
 
 -- Task 10:
 
@@ -55,6 +59,13 @@ limit 2
 
 
 -- Task :
+select
+    extract(month from joining_date) as month,
+    count(id)
+from employees
+where extract(year from joining_date) = '2022'
+group by extract(month from joining_date)
+
 
 
 
