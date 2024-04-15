@@ -54,4 +54,7 @@ from worker
 where first_name = 'Amitah'
 
 -- Task 10:
+select substring(title,length(winery)+2, 4)
+from winemag_p2
+where country = 'Macedonia'
 
