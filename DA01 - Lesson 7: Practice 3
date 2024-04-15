@@ -10,6 +10,7 @@ SELECT manufacturer,
 FROM pharmacy_sales
 GROUP BY manufacturer
 ORDER BY sum(total_sales) DESC, manufacturer 
+
 -- Task 3:
 
 
@@ -42,7 +43,10 @@ where length(content) > 15
 
 
 -- Task 8:
-
+select count(id)
+from employees
+where extract(year from joining_date) = 2022 
+    and extract(month from joining_date) between 1 and 7
 
 -- Task 9:
 select position('a' in first_name)
@@ -50,22 +54,4 @@ from worker
 where first_name = 'Amitah'
 
 -- Task 10:
-
-
--- Task 11:
-
-
--- Task :
-
-
--- Task :
-select
-    extract(month from joining_date) as month,
-    count(id)
-from employees
-where extract(year from joining_date) = '2022'
-group by extract(month from joining_date)
-
-
-
 
