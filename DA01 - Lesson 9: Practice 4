@@ -1,1 +1,44 @@
+--Task 1: /datalemur-laptop-mobile-viewership./
+--Cách 1: 
+SELECT 
+  sum(case when device_type = 'laptop' then 1 else 0 end) as laptop_views,
+  SUM(case when device_type = 'tablet' then 1 else 0 end) as mobile_views
+from viewership
 
+--Cách 2:
+ SELECT 
+  COUNT(*) FILTER (WHERE device_type = 'laptop') AS laptop_views,
+  COUNT(*) FILTER (WHERE device_type IN ('tablet', 'phone'))  AS mobile_views 
+FROM viewership;
+
+
+-- Task 2: /datalemur-triangle-judgement./
+select *,
+case
+    when x+y>z then 'Yes' else 'No'
+end as Triangle
+from Triangle
+
+
+-- Task 3: /datalemur-uncategorized-calls-percentage/
+select
+  round(100.0 * 
+    count(case_id) FILTER (where call_category IS NULL or call_category = 'n/a')
+    / count(case_id), 1) as uncategorised_call_pct
+from callers;
+
+-- Task 4: 
+select name
+from customer
+where referee_id is null or referee_id = 1
+
+-- task 5: /stratascratch the-number-of-survivors./
+case
+    when pclass = 1 then 'first_class'
+    when pclass = 2 then 'second_classs'
+    when pclass = 3 then 'third_class'
+end as class,
+count(*) FILTER (WHERE survived = 1)  as survivors,
+count(*) FILTER (where survived = 0) as 'non-survivor'
+from titanic
+group by class
