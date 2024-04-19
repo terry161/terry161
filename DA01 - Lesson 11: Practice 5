@@ -1,0 +1,24 @@
+-- Task 1: 
+select a2.continent, floor(avg(a1.population))
+from city as a1
+inner join country as a2
+on a1.CountryCode = a2.Code
+group by a2.continent
+order by round(avg(a1.population))
+
+-- Task 2:
+
+
+-- Task 3:
+
+
+-- Task 4:
+
+
+-- Task 5:
+
+
+-- Task 6:
+
+
+-- Task 7:
