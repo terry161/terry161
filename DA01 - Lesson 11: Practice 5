@@ -7,18 +7,54 @@ group by a2.continent
 order by round(avg(a1.population))
 
 -- Task 2: datalemur-signup-confirmation-rate.
+SELECT ROUND(cOUNT(a2.email_id)::DECIMAL / COUNT(DISTINCT a1.email_id),2)
+from emails as a1
+LEFT JOIN texts as a2
+on a1.email_id = a2.email_id
+and a2.signup_action = 'Confirmed'
 
 
 -- Task 3: datalemur-time-spent-snaps.
-
+SELECT a2.age_bucket,
+  round(
+    100*sum(time_spent) filter (where activity_type = 'send') / sum(time_spent),2) as sending,
+  round(
+    100*sum(time_spent) filter (where activity_type = 'open') / sum(time_spent),2) as opening
+from activities as a1
+LEFT JOIN age_breakdown as a2
+  on a1.user_id = a2.user_id
+where a1.activity_type in ('send','open')
+group by a2.age_bucket
 
 -- Task 4: datalemur-supercloud-customer.
 
 
 -- Task 5: leetcode-the-number-of-employees-which-report-to-each-employee.
+select a1.employee_id as employee_id,
+     a1.name as name,
+     count(a2.reports_to) as reports_count,
+     ceiling(avg(a2.age)) as average_age 
+from employees as a1
+left join employees as a2
+on a1.employee_id = a2.reports_to
 
 
 -- Task 6: leetcode-list-the-products-ordered-in-a-period.
-
+select p.product_name, 
+  sum(o.unit) as unit
+from products p
+inner join orders o
+on p.product_id = o.product_id
+where month(order_date) = 2 
+  and year(order_date) =2020
+group by p.product_id
+having unit >=100 
 
 -- Task 7: leetcode-sql-page-with-no-likes.
+select a1.page_id
+from pages as a1
+left join page_likes as a2
+on a1.page_id = a2.page_id
+where a2.page_id is null
+order by a1.page_id
+
