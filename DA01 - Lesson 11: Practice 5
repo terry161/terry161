@@ -1,4 +1,4 @@
--- Task 1: 
+-- Task 1: ex1: hackerrank-average-population-of-each-continent.
 select a2.continent, floor(avg(a1.population))
 from city as a1
 inner join country as a2
@@ -6,19 +6,19 @@ on a1.CountryCode = a2.Code
 group by a2.continent
 order by round(avg(a1.population))
 
--- Task 2:
+-- Task 2: datalemur-signup-confirmation-rate.
 
 
--- Task 3:
+-- Task 3: datalemur-time-spent-snaps.
 
 
--- Task 4:
+-- Task 4: datalemur-supercloud-customer.
 
 
--- Task 5:
+-- Task 5: leetcode-the-number-of-employees-which-report-to-each-employee.
 
 
--- Task 6:
+-- Task 6: leetcode-list-the-products-ordered-in-a-period.
 
 
--- Task 7:
+-- Task 7: leetcode-sql-page-with-no-likes.
