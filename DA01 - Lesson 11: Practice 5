@@ -27,7 +27,21 @@ where a1.activity_type in ('send','open')
 group by a2.age_bucket
 
 -- Task 4: datalemur-supercloud-customer.
+WITH supercloud AS (
+SELECT a1.customer_id, 
+  COUNT(DISTINCT a2.product_category) as unique_count
+FROM customer_contracts AS a1
+LEFT JOIN products as a2
+  ON a1.product_id = a2.product_id
+GROUP BY a1.customer_id
+)
 
+SELECT customer_id
+FROM supercloud
+WHERE unique_count = (
+  SELECT COUNT(DISTINCT product_category) 
+  FROM products)
+ORDER BY customer_id;
 
 -- Task 5: leetcode-the-number-of-employees-which-report-to-each-employee.
 select a1.employee_id as employee_id,
