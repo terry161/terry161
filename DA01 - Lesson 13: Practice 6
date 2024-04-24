@@ -1,0 +1,57 @@
+--- Task 1: datalemur-duplicate-job-listings.
+  ** Method 1: SUBQUERIES in FROM
+SELECT count(DISTINCT company_id)
+FROM(select company_id,
+            COUNT(job_id) as counting,
+            title,
+            description
+      from job_listings
+      GROUP BY company_id, title, description
+      order by company_id) as dupplicate_table
+  WHERE counting > 1
+
+** Method 2: CTE
+WITH duplicate_table as 
+  (SELECT company_id,
+          COUNT(job_id) as counting,
+          title,
+          description
+  FROM job_listings
+  GROUP BY company_id, title, description
+  ORDER BY company_id)
+      
+SELECT count(DISTINCT company_id)
+FROM duplicate_table
+where counting > 1
+
+
+
+--- Task 2: datalemur-highest-grossing.
+
+--- Task 3: datalemur-frequent-callers.
+
+--- Task 4: datalemur-page-with-no-likes.
+
+
+--- Task 5: datalemur-user-retention.
+
+
+--- Task 6: leetcode-monthly-transactions.
+
+
+--- Task 7: leetcode-product-sales-analysis.
+
+
+--- Task 8: leetcode-customers-who-bought-all-products.
+
+
+--- Task 9: leetcode-employees-whose-manager-left-the-company.
+
+
+--- Task 10: leetcode-primary-department-for-each-employee.
+
+
+--- Task 11: leetcode-movie-rating.
+
+
+--- Task 12: leetcode-who-has-the-most-friends.
