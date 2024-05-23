@@ -72,7 +72,19 @@ ORDER BY a1.page_id
 
 
 --- Task 6: leetcode-monthly-transactions.
+WITH abc AS
+    (SELECT *,
+        DATE_FORMAT(trans_date,"%Y-%m") as month
+    FROM transactions)
 
+SELECT abc.month, 
+    abc.country,
+    COUNT(*) AS trans_count,
+    SUM(CASE WHEN abc.state = "approved" THEN 1 ELSE 0 END) AS approved_count,
+    SUM(abc.amount) AS trans_total_amount,
+    SUM(CASE WHEN abc.state = "approved" THEN abc.amount ELSE 0 END) as approved_total_amount
+FROM abc
+GROUP BY abc.month, abc.country
 
 --- Task 7: leetcode-product-sales-analysis.
 
