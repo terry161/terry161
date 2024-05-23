@@ -27,10 +27,45 @@ where counting > 1
 
 
 --- Task 2: datalemur-highest-grossing.
+WITH table1 AS
+   (SELECT
+       category,
+       product,
+       SUM(spend) AS total_spend,
+       RANK() OVER(
+       PARTITION BY category
+       ORDER BY SUM(spend) DESC) AS ranking
+    FROM product_spend
+    WHERE EXTRACT(YEAR FROM transaction_date) = 2022
+    GROUP BY category, product)
+    
+SELECT
+  category,
+  product,
+  total_spend
+FROM table1
+WHERE ranking <=2
+ORDER BY category, total_spend DESC
+
 
 --- Task 3: datalemur-frequent-callers.
+WITH abc AS
+  (SELECT policy_holder_id as UHG,
+          count(call_date) as count1
+    FROM callers
+    GROUP BY policy_holder_id)
+    
+SELECT COUNT(UHG)
+FROM abc
+WHERE count1 >=3
 
 --- Task 4: datalemur-page-with-no-likes.
+SELECT a1.page_id
+FROM pages AS a1
+LEFT JOIN page_likes AS a2
+ON a1.page_id = a2.page_id
+WHERE a2.page_id IS NULL
+ORDER BY a1.page_id
 
 
 --- Task 5: datalemur-user-retention.
