@@ -87,8 +87,29 @@ FROM abc
 GROUP BY abc.month, abc.country
 
 --- Task 7: leetcode-product-sales-analysis.
+WITH xyz as 
+    (Select a.*, b.*, rank() over(partition by product_name order by year ASC) as first_year
+    from Sales as a
+    inner join product as b
+    on a.product_id = b.product_id
+    order by b.product_name, a.year)
+
+select product_id,
+    year,
+    quantity, 
+    price
+from xyz
+where first_year = 1
 
 
+SELECT product_id, year, quantity, price
+FROM (Select a.*, b.product_name, rank() over(partition by product_name order by year ASC) as first_year
+    from Sales as a
+    inner join product as b
+    on a.product_id = b.product_id
+    ) as xyz
+WHERE first_year = 1
+order by year asc
 --- Task 8: leetcode-customers-who-bought-all-products.
 
 
