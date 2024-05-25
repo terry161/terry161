@@ -128,7 +128,18 @@ where salary < 30000
 
 
 --- Task 10: leetcode-primary-department-for-each-employee.
-
+WITH duplicate_table as 
+  (select company_id,
+            COUNT(job_id) as counting,
+            title,
+            description
+      from job_listings
+      GROUP BY company_id, title, description
+      order by company_id)
+      
+SELECT count(DISTINCT company_id)
+FROM duplicate_table
+where counting > 1
 
 --- Task 11: leetcode-movie-rating.
 
