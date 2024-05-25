@@ -87,33 +87,44 @@ FROM abc
 GROUP BY abc.month, abc.country
 
 --- Task 7: leetcode-product-sales-analysis.
-WITH xyz as 
-    (Select a.*, b.*, rank() over(partition by product_name order by year ASC) as first_year
-    from Sales as a
-    inner join product as b
-    on a.product_id = b.product_id
-    order by b.product_name, a.year)
-
-select product_id,
-    year,
-    quantity, 
+** Method 1: CTE
+WITH table1 AS 
+    (Select a.*, 
+            b.product_name, 
+            RANK() OVER(PARTITION BY product_name ORDER BY year ASC) AS check_year
+    FROM Sales AS a
+    INNER JOIN Product AS b
+    ON a.product_id = b.product_id)
+SELECT product_id,
+    year AS first_year,
+    quantity,
     price
-from xyz
-where first_year = 1
+FROM table1
+WHERE check_year = 1
+ORDER year ASC
 
-
-SELECT product_id, year, quantity, price
-FROM (Select a.*, b.product_name, rank() over(partition by product_name order by year ASC) as first_year
-    from Sales as a
-    inner join product as b
-    on a.product_id = b.product_id
-    ) as xyz
-WHERE first_year = 1
-order by year asc
---- Task 8: leetcode-customers-who-bought-all-products.
+** Method 2: SUBQUERRY
+SELECT xyz.product_id, 
+        xyz.year as first_year, 
+        xyz.quantity, xyz.price
+FROM (Select a.*, 
+            b.product_name, 
+            rank() over(partition by product_name order by year ASC) as check_year
+        FROM Sales AS a
+        INNER JOIN Product AS b
+        ON a.product_id = b.product_id
+        ) AS xyz
+WHERE xyz.check_year = 1
+ORDER BY xyz.year ASC
 
 
 --- Task 9: leetcode-employees-whose-manager-left-the-company.
+** Method 1: SUBQUERY in WHERE
+select employee_id
+from employees
+where salary < 30000 
+    and manager_id is not NULL 
+    and manager_id not in (select employee_id from employees)
 
 
 --- Task 10: leetcode-primary-department-for-each-employee.
