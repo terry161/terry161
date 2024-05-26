@@ -128,18 +128,30 @@ where salary < 30000
 
 
 --- Task 10: leetcode-primary-department-for-each-employee.
-WITH duplicate_table as 
-  (select company_id,
-            COUNT(job_id) as counting,
-            title,
-            description
-      from job_listings
-      GROUP BY company_id, title, description
-      order by company_id)
-      
-SELECT count(DISTINCT company_id)
-FROM duplicate_table
-where counting > 1
+** Method 1: CTE
+WITH duplicate_job AS (
+  SELECT
+      company_id,
+      title,
+      description,
+      count(job_id) AS count_123
+  FROM job_listings
+  GROUP BY company_id, title, description)
+
+SELECT COUNT(*)
+FROM duplicate_job
+WHERE count_123 > 1 
+
+** Method: SUBQUERY in FROM
+SELECT COUNT(*)
+FROM (
+    SELECT COUNT(job_id) AS dup_job,
+          company_id,
+          title,
+          description
+    FROM job_listings
+    GROUP BY company_id, title, description) as test
+WHERE dup_job > 1
 
 --- Task 11: leetcode-movie-rating.
 
