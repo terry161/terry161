@@ -195,13 +195,19 @@ order by num desc
 limit 1
 
 ** Method 2: CTE
-with abc as
-    (select requester_id as id from requestaccepted
-    union all
-    select accepter_id as id from requestaccepted)
-select id,
-    count(*) as num
-from abc
-group by id
-order by num desc
-limit 1
+(select name as results
+from 
+    (select b.*, c.rating, c.created_at
+    from users as b
+    inner join movierating as c
+    on b.user_id = c.user_id) as a2
+group by name
+order by count(*) desc, name
+limit 1)
+
+union all
+
+(select title
+from 
+    (select a.*, c.rating, c.created_at
+    from movies as a
