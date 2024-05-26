@@ -69,7 +69,20 @@ ORDER BY a1.page_id
 
 
 --- Task 5: datalemur-user-retention.
-
+SELECT 
+  EXTRACT(MONTH FROM curr_month.event_date) AS mth, 
+  COUNT(DISTINCT curr_month.user_id) AS monthly_active_users 
+FROM user_actions AS curr_month
+WHERE EXISTS (
+  SELECT last_month.user_id 
+  FROM user_actions AS last_month
+  WHERE last_month.user_id = curr_month.user_id
+    AND EXTRACT(MONTH FROM last_month.event_date) =
+    EXTRACT(MONTH FROM curr_month.event_date - interval '1 month')
+)
+  AND EXTRACT(MONTH FROM curr_month.event_date) = 7
+  AND EXTRACT(YEAR FROM curr_month.event_date) = 2022
+GROUP BY EXTRACT(MONTH FROM curr_month.event_date);
 
 --- Task 6: leetcode-monthly-transactions.
 WITH abc AS
@@ -154,6 +167,41 @@ FROM (
 WHERE dup_job > 1
 
 --- Task 11: leetcode-movie-rating.
+FROM MovieRating JOIN Users USING(user_id)
+GROUP BY name
+ORDER BY COUNT(*) DESC, name
+LIMIT 1)
+
+UNION ALL
+
+(SELECT title AS results
+FROM MovieRating JOIN Movies USING(movie_id)
+WHERE EXTRACT(YEAR_MONTH FROM created_at) = 202002
+GROUP BY title
+ORDER BY AVG(rating) DESC, title
+LIMIT 1)
 
 
 --- Task 12: leetcode-who-has-the-most-friends.
+** Method 1: SUBQUERY in FROM
+select id,
+    count(*) as num
+from   
+    (select requester_id as id from requestaccepted
+    union all
+    select accepter_id as id from requestaccepted) as abc
+group by id
+order by num desc
+limit 1
+
+** Method 2: CTE
+with abc as
+    (select requester_id as id from requestaccepted
+    union all
+    select accepter_id as id from requestaccepted)
+select id,
+    count(*) as num
+from abc
+group by id
+order by num desc
+limit 1
